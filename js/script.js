@@ -1,8 +1,10 @@
+'use strict';
 let currentPage = null;
+const apiKey = "AIzaSyB3pH5edZd0Pza-Kc7yK58Auv7xnw98XGc";
 
 function getVideos(search = '') {
   const totalVideosCount = localStorage.getItem('totalVideosCount');
-  fetch(`https://www.googleapis.com/youtube/v3/search?key=AIzaSyCTWC75i70moJLzyNh3tt4jzCljZcRkU8Y&type=video&part=snippet&maxResults=${totalVideosCount}&q=${search}`)
+  fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&type=video&part=snippet&maxResults=${totalVideosCount}&q=${search}`)
     .then(response => {
       return response.json();
     })
@@ -25,25 +27,25 @@ function generateHeader() {
   document.body.appendChild(header);
 }
 
-function generateMain () {
-    const mainBlock = document.createElement('div');
-    mainBlock.classList.add('main');
+function generateMain() {
+  const mainBlock = document.createElement('div');
+  mainBlock.classList.add('main');
 
-    document.body.appendChild(mainBlock);
+  document.body.appendChild(mainBlock);
 }
 
-function generateFooter () {
-    const footer = document.createElement('div');
-    footer.classList.add('footer')
+function generateFooter() {
+  const footer = document.createElement('div');
+  footer.classList.add('footer')
 
-    const pagination = document.createElement('div');
-    pagination.classList.add('pagination');
+  const pagination = document.createElement('div');
+  pagination.classList.add('pagination');
 
-    const list = document.createElement('ul');
-    pagination.appendChild(list);
-    footer.appendChild(pagination);
+  const list = document.createElement('ul');
+  pagination.appendChild(list);
+  footer.appendChild(pagination);
 
-    document.body.appendChild(footer);
+  document.body.appendChild(footer);
 }
 
 function createLogoBlock() {
@@ -102,7 +104,7 @@ function createTitleElement(videoTitle) {
   const title = document.createElement('div');
 
   title.classList.add('video-title');
-  title.innerHTML = ((videoTitle.length > titleBlockLength) ?  videoTitle.substr(0, titleBlockLength) + '...' : videoTitle);
+  title.innerHTML = ((videoTitle.length > titleBlockLength) ? videoTitle.substr(0, titleBlockLength) + '...' : videoTitle);
   title.title = videoTitle;
 
   return title;
@@ -118,7 +120,7 @@ function createChannelBlock(channelName, channelId) {
   const channelNameLength = parseInt(localStorage.getItem('channelNameLength'));
   const channel = document.createElement('a');
   channel.classList.add('channel');
-  channel.innerHTML = (channelName.length > 29) ? channelName.substr(0, channelNameLength) + '...' : channelName ;
+  channel.innerHTML = (channelName.length > 29) ? channelName.substr(0, channelNameLength) + '...' : channelName;
   channel.title = channelName;
   channel.href = `https://www.youtube.com/channel/${channelId}`;
   channelBlock.appendChild(channelIcon);
@@ -197,7 +199,7 @@ function parseVideos(videos) {
   let i = 1;
   let j = 1;
   videos['items'].forEach(video => {
-    if (pageIsInRange(j, i))  {
+    if (pageIsInRange(j, i)) {
       videoBlockFormation(video, mainBlock);
       i++;
     }
@@ -205,7 +207,7 @@ function parseVideos(videos) {
   });
 }
 
-function initPagination () {
+function initPagination() {
   let list = document.querySelector('.pagination>ul');
   let numPages = localStorage.getItem('numPages');
   for (let i = 1; i <= numPages; i++) {
@@ -222,7 +224,7 @@ function initPagination () {
   addActionOnPagination();
 }
 
-function addActionOnPagination () {
+function addActionOnPagination() {
   let pages = document.querySelectorAll('.pagination li');
 
   pages.forEach(page => {
@@ -236,7 +238,7 @@ function addActionOnPagination () {
         currentPage = elem;
 
         const countVideosOnPage = localStorage.getItem('countVideosOnPage');
-        const startPosition  = (countVideosOnPage-1) * (selectPage-1) + 1;
+        const startPosition = (countVideosOnPage - 1) * (selectPage - 1) + 1;
         localStorage.setItem('startPosition', startPosition);
       }
 
@@ -253,12 +255,12 @@ function addEventSearchField() {
   });
 }
 
-function initParameters () {
+function initParameters() {
   const countVideosOnPage = 4;
   const totalVideosCount = 15;
 
   let numPages = Math.ceil((totalVideosCount - countVideosOnPage) / (countVideosOnPage - 1)) + 1;
-  if (totalVideosCount - (numPages*(countVideosOnPage-1)) > 2) {
+  if (totalVideosCount - (numPages * (countVideosOnPage - 1)) > 2) {
     numPages = numPages + 1;
   }
 
