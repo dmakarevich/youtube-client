@@ -272,8 +272,6 @@ function initParameters() {
   localStorage.setItem('channelNameLength', '29');
   localStorage.setItem('startPosition', '1');
   localStorage.setItem('page', '1');
-
-
 }
 
 window.onload = () => {
